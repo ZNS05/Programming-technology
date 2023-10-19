@@ -1,0 +1,16 @@
+{
+  "files.associations": {
+    "iostream": "cpp"
+  },
+  "python.analysis.typeCheckingMode": "off",
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.autopep8"
+  },
+  "python.formatting.provider": "none",
+
+  "cSpell.language": "en, ru"
+
+  "editor.scrollbar.horizontal": "hidden"
+  "editor.scrollbar.vertical": "hidden"
+  "editor.overviewRulerBorder": false
+}
