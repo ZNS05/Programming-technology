@@ -50,6 +50,12 @@ Boat::Boat()
 
 Boat::Boat(ifstream &fin)
 {
+    fin >> this->appointment;
+    fin.ignore(256, '\n');
+    getline(fin, material);
+    fin.ignore(256, '\n');
+    getline(fin, ride_quality);
+    fin >> this->speed >> this->people;
 }
 
 Boat::~Boat()
@@ -60,6 +66,94 @@ Boat::~Boat()
 
 void Boat::Edit()
 {
+    try
+    {
+        int index;
+        int iTmp;
+        string sTmp;
+        cout << "Выберите параметр для изменения: " << endl
+             << "[1] Спецификация парусника." << endl
+             << "[2] Материал парусника." << endl
+             << "[3] Ходовые качества." << endl
+             << "[4] Максимальная скорость." << endl
+             << "[5] Количество экипажа." << endl;
+        cin >> index;
+        if (index < 1 || index > 6)
+        {
+            throw(string) "Параметра с данным индексом не существует";
+        }
+        cout << "Исходное значение: ";
+        switch (index)
+        {
+        case 1:
+            if (appointment == 1)
+            {
+                cout << "Мирный" << endl;
+            }
+            else
+            {
+                cout << "Военный" << endl;
+            }
+            cout << "Новое значение [1/2]: ";
+            cin >> iTmp;
+            if (iTmp < 1 || iTmp > 2)
+            {
+                throw(string) "Назначение должно быть [1/2]";
+            }
+            appointment = iTmp;
+            break;
+        case 2:
+            cout << material << endl;
+            cout << "Новый материал:" << endl;
+            cin.ignore(256, '\n');
+            getline(cin, sTmp);
+            if (sTmp == "")
+            {
+                throw(string) "Материал не может быть пустым.";
+            }
+            material = sTmp;
+            break;
+        case 3:
+            cout << ride_quality << endl;
+            cout << "Новые ходовые характеристики: " << endl;
+            cin.ignore(256, '\n');
+            getline(cin, sTmp);
+            if (sTmp == "")
+            {
+                throw(string) "Ходовые качества не могут быть пустыми.";
+            }
+            ride_quality = sTmp;
+            break;
+        case 4:
+            cout << speed << endl;
+            cout << "Новое значение: ";
+            cin >> iTmp;
+            if (iTmp < 0)
+            {
+                throw(string) "Скорость не может быть отрицательным";
+            }
+            speed = iTmp;
+            break;
+        case 5:
+            cout << people << endl;
+            cout << "Новое значение: ";
+            cin >> iTmp;
+            if (iTmp < 0)
+            {
+                throw(string) "Количество экипажа не может быть отрицательным";
+            }
+            people = iTmp;
+            break;
+        default:
+            break;
+        }
+        setError(false);
+    }
+    catch (string err)
+    {
+        cout << "ERROR: " + err << endl;
+        setError(true);
+    }
 }
 
 void Boat::Save(ofstream &fout)
