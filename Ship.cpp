@@ -19,3 +19,7 @@ void Ship::setError(bool _error)
 {
     this->error = _error;
 }
+
+Ship::~Ship()
+{
+}

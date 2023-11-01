@@ -2,61 +2,64 @@
 
 Sailboat::Sailboat()
 {
-    cout << "+++++++++++++++++++++++++++++++++++ Парусник +++++++++++++++++++++++++++++++++++" << endl;
+    cout << "+++++++++++++++++++++++++++++++++++\n        Парусник        \n+++++++++++++++++++++++++++++++++++" << endl;
     try
     {
-        cout << "Введите название парусника: " << endl;
+        setType(2);
+        cout << "Введите название парусника = ";
         cin.ignore(256, '\n');
-        getline(cin, this->name);
+        getline(cin, name);
         if (name == "")
         {
             throw(string) "Название не может быть пустым.";
         }
 
-        cout << "Введите тип парусника: " << endl;
-        cin.ignore(256, '\n');
-        getline(cin, this->type);
+        cout << "Введите тип парусника = ";
+        getline(cin, type);
         if (type == "")
         {
             throw(string) "Тип парусника не может быть пустым.";
         }
 
-        cout << "Выберите назначение парусника |1| - мирный; |2| - военный = " << endl;
+        cout << "Выберите назначение парусника |1| - мирный; |2| - военный = ";
         cin >> this->appointment;
         if (this->appointment < 1 || this->appointment > 2)
         {
             throw(string) "Назначение парусника обязательно должно быть выбрано.";
         }
 
-        cout << "Введите длину парусника = " << endl;
+        cout << "Введите длину парусника = ";
         cin >> this->length;
         if (this->length <= 0)
         {
             throw(string) "Длина не может отрицательной или быть нулевой.";
         }
 
-        cout << "Введите максимальную скорость парусника = " << endl;
+        cout << "Введите максимальную скорость парусника = ";
         cin >> this->speed;
         if (this->speed <= 0)
         {
             throw(string) "Скорость не может равняться нулю или быть отрицательной.";
         }
 
-        cout << "Введите количество экипажа: " << endl;
+        cout << "Введите количество экипажа = ";
         cin >> this->people;
         if (this->people <= 0)
         {
             throw(string) "Экипаж парусника не может быть отрицательным или ровняться нулю.";
         }
+        setError(false);
     }
-    catch (const std::exception &e)
+    catch (string err)
     {
-        std::cerr << e.what() << '\n';
+        cout << "ERROR: " + err << endl;
+        setError(true);
     }
 }
 
 Sailboat::Sailboat(ifstream &fin)
 {
+    setType(2);
     fin.ignore(256, '\n');
     getline(fin, name);
     fin.ignore(256, '\n');
@@ -80,10 +83,10 @@ void Sailboat::Edit()
         cout << "Выберите параметр для изменения:" << endl
              << "[1] Название" << endl
              << "[2] Тип" << endl
-             << "[3] Экипаж" << endl
-             << "[4] Назначение" << endl
+             << "[3] Назначение" << endl
+             << "[4] Длина" << endl
              << "[5] Скорость" << endl
-             << "[6] Длина" << endl
+             << "[6] Экипаж" << endl
              << "Ваш выбор: ";
         cin >> index;
         if (index < 1 || index > 6)
@@ -104,7 +107,7 @@ void Sailboat::Edit()
             break;
         case 2:
             cout << type << endl;
-            cout << "Новое значение: ";
+            cout << "Новое значение типа парусника: ";
             cin.ignore(256, '\n');
             getline(cin, sTmp);
             if (sTmp == "")
@@ -112,16 +115,6 @@ void Sailboat::Edit()
             type = sTmp;
             break;
         case 3:
-            cout << people << endl;
-            cout << "Новое значение: ";
-            cin >> iTmp;
-            if (iTmp < 0)
-            {
-                throw(string) "Количество экипажа не может быть отрицательным.";
-            }
-            people = iTmp;
-            break;
-        case 4:
             if (appointment == 1)
             {
                 cout << "Мирный" << endl;
@@ -137,10 +130,19 @@ void Sailboat::Edit()
                 throw(string) "Назначение должно быть [1/2]";
             }
             appointment = iTmp;
+        case 4:
+            cout << length << endl;
+            cout << "Новое значение длины парусника: ";
+            cin >> iTmp;
+            if (!iTmp || iTmp < 0)
+            {
+                throw(string) "Длина лодки равна нулю или отрицательна";
+            }
+            length = iTmp;
             break;
         case 5:
             cout << speed << endl;
-            cout << "Новое значение: ";
+            cout << "Новое значение скорости парусника: ";
             cin >> iTmp;
             if (iTmp < 0)
             {
@@ -149,14 +151,14 @@ void Sailboat::Edit()
             speed = iTmp;
             break;
         case 6:
-            cout << length << endl;
-            cout << "Новое значение: ";
+            cout << people << endl;
+            cout << "Новое значение количества экипажа: ";
             cin >> iTmp;
-            if (!iTmp || iTmp < 0)
+            if (iTmp < 0)
             {
-                throw(string) "Длина лодки равна нулю или отрицательна";
+                throw(string) "Количество экипажа не может быть отрицательным.";
             }
-            length = iTmp;
+            people = iTmp;
             break;
         default:
             break;
@@ -183,13 +185,18 @@ void Sailboat::Save(ofstream &fout)
 
 void Sailboat::Show(ostream &out)
 {
+    out << "+++++++++++++++++++++++++++++++++++\n        Парусник        \n+++++++++++++++++++++++++++++++++++" << endl;
+    out << "Название парусника: " << this->name << endl;
+    out << "Тип парусника: " << this->type << endl;
+    if (this->appointment == 1)
     {
-        cout << "+++++++++++++++++++++++++++++++++++ Парусник +++++++++++++++++++++++++++++++++++" << endl;
-        cout << "Название парусника: " << name << endl;
-        cout << "Тип парусника: " << type << endl;
-        cout << "Назначение парусника: " << appointment << endl;
-        cout << "Длина парусника: " << length << endl;
-        cout << "Максимальная скорость парусника: " << speed << endl;
-        cout << "Количество экипажа: " << people << endl;
+        out << "Назначение : Мирный" << endl;
     }
+    else
+    {
+        out << "Назначение : Военный" << endl;
+    }
+    out << "Длина парусника: " << this->length << endl;
+    out << "Максимальная скорость парусника: " << this->speed << endl;
+    out << "Количество экипажа: " << this->people << endl;
 }

@@ -2,54 +2,57 @@
 
 Boat::Boat()
 {
-    cout << "+++++++++++++++++++++++++++++++++++ Катер +++++++++++++++++++++++++++++++++++" << endl;
+    cout << "+++++++++++++++++++++++++++++++++++\n        Катер        \n+++++++++++++++++++++++++++++++++++" << endl;
     try
     {
-        cout << "Выберите назначение парусника |1| - мирный; |2| - военный = " << endl;
+        setType(1);
+        cout << "Выберите назначение катера |1| - мирный; |2| - военный: ";
         cin >> this->appointment;
         if (this->appointment < 1 || this->appointment > 2)
         {
-            throw(string) "Назначение парусника обязательно должно быть выбрано.";
+            throw(string) "Назначение катера не может быть пустым.";
         }
 
-        cout << "Введите материал из которого состоит судно: " << endl;
+        cout << "Введите материал из которого состоит судно: ";
         cin.ignore(256, '\n');
-        getline(cin, this->material);
+        getline(cin, material);
         if (material == "")
         {
-            throw(string) "Название не может быть пустым.";
+            throw(string) "Материал не может быть пустым.";
         }
 
-        cout << "Введите ходовые качества судна: " << endl;
-        cin.ignore(256, '\n');
-        getline(cin, this->ride_quality);
+        cout << "Введите ходовые качества судна: ";
+        getline(cin, ride_quality);
         if (ride_quality == "")
         {
             throw(string) "Ходовые качества не могут отсутствовать.";
         }
 
-        cout << "Введите максимальную скорость подводной лодки под водой = " << endl;
+        cout << "Введите максимальную скорость катера: ";
         cin >> this->speed;
-        if (this->speed <= 0)
+        if (this->speed < 0)
         {
             throw(string) "Скорость не может равняться нулю или быть отрицательной.";
         }
 
-        cout << "Введите количество экипажа: " << endl;
+        cout << "Введите количество экипажа: ";
         cin >> this->people;
-        if (this->people <= 0)
+        if (this->people < 0)
         {
             throw(string) "Экипаж катера не может быть отрицательным или ровняться нулю.";
         }
+        setError(false);
     }
-    catch (const std::exception &e)
+    catch (string err)
     {
-        std::cerr << e.what() << '\n';
+        cout << "ERROR: " + err << endl;
+        setError(true);
     }
 }
 
 Boat::Boat(ifstream &fin)
 {
+    setType(1);
     fin >> this->appointment;
     fin.ignore(256, '\n');
     getline(fin, material);
@@ -60,7 +63,7 @@ Boat::Boat(ifstream &fin)
 
 Boat::~Boat()
 {
-    cout << "Вызван дистрокутор класса Boat" << endl;
+    cout << "Вызван деструктор класса Boat" << endl;
     system("pause");
 }
 
@@ -72,11 +75,12 @@ void Boat::Edit()
         int iTmp;
         string sTmp;
         cout << "Выберите параметр для изменения: " << endl
-             << "[1] Спецификация парусника." << endl
-             << "[2] Материал парусника." << endl
-             << "[3] Ходовые качества." << endl
-             << "[4] Максимальная скорость." << endl
-             << "[5] Количество экипажа." << endl;
+             << "[1] Назначение" << endl
+             << "[2] Материал" << endl
+             << "[3] Ходовые качества" << endl
+             << "[4] Максимальная скорость" << endl
+             << "[5] Количество экипажа" << endl
+             << "Ваш выбор: ";
         cin >> index;
         if (index < 1 || index > 6)
         {
@@ -104,7 +108,7 @@ void Boat::Edit()
             break;
         case 2:
             cout << material << endl;
-            cout << "Новый материал:" << endl;
+            cout << "Новый материал: ";
             cin.ignore(256, '\n');
             getline(cin, sTmp);
             if (sTmp == "")
@@ -115,7 +119,7 @@ void Boat::Edit()
             break;
         case 3:
             cout << ride_quality << endl;
-            cout << "Новые ходовые характеристики: " << endl;
+            cout << "Новые ходовые качества: ";
             cin.ignore(256, '\n');
             getline(cin, sTmp);
             if (sTmp == "")
@@ -126,7 +130,7 @@ void Boat::Edit()
             break;
         case 4:
             cout << speed << endl;
-            cout << "Новое значение: ";
+            cout << "Новое значение скорости: ";
             cin >> iTmp;
             if (iTmp < 0)
             {
@@ -136,7 +140,7 @@ void Boat::Edit()
             break;
         case 5:
             cout << people << endl;
-            cout << "Новое значение: ";
+            cout << "Новое значение количества экипажа: ";
             cin >> iTmp;
             if (iTmp < 0)
             {
@@ -168,12 +172,17 @@ void Boat::Save(ofstream &fout)
 
 void Boat::Show(ostream &out)
 {
+    out << "+++++++++++++++++++++++++++++++++++\n        Катер        \n+++++++++++++++++++++++++++++++++++" << endl;
+    if (this->appointment == 1)
     {
-        cout << "+++++++++++++++++++++++++++++++++++ Катер +++++++++++++++++++++++++++++++++++" << endl;
-        cout << "Ширина лодки : " << appointment << endl;
-        cout << "Экипаж : " << material << endl;
-        cout << "Время под водой : " << ride_quality << endl;
-        cout << "Скорость : " << speed << endl;
-        cout << "Вооружение : " << people << endl;
+        out << "Назначение: Мирный" << endl;
     }
+    else
+    {
+        out << "Назначение: Военный" << endl;
+    }
+    out << "Материал: " << this->material << endl;
+    out << "Ходовые качества: " << this->ride_quality << endl;
+    out << "Скорость: " << this->speed << endl;
+    out << "Экипаж: " << this->people << endl;
 }

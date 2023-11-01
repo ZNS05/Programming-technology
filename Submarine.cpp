@@ -2,69 +2,73 @@
 
 Submarine::Submarine()
 {
-    cout << "+++++++++++++++++++++++++++++++++++ Подводная лодка +++++++++++++++++++++++++++++++++++" << endl;
+    cout << "+++++++++++++++++++++++++++++++++++\n        Подводная лодка        \n+++++++++++++++++++++++++++++++++++" << endl;
     try
     {
-        cout << "Введите длину подводной лодки = " << endl;
+        setType(3);
+        cout << "Введите длину подводной лодки = ";
         cin >> this->length;
         if (!this->length || this->length <= 0)
         {
             throw(string) "Длина лодки равна нулю или отрицательна.";
         }
 
-        cout << "Введите ширину подводной лодки = " << endl;
+        cout << "Введите ширину подводной лодки = ";
         cin >> this->wight;
         if (this->wight <= 0)
         {
             throw(string) "Ширина лодки равна нулю или отрицательна.";
         }
 
-        cout << "Введите количество экипажа подводной лодки = " << endl;
+        cout << "Введите количество экипажа подводной лодки = ";
         cin >> this->people;
         if (this->people <= 0)
         {
             throw(string) "Количество экипажа не может быть отрицательным или равным нулю.";
         }
 
-        cout << "Введите максимальное время пребывания подводной лодки под водой = " << endl;
+        cout << "Введите максимальное время пребывания подводной лодки под водой = ";
         cin >> this->time;
         if (this->time <= 0)
         {
             throw(string) "Время не может равняться нулю или быть отрицательным.";
         }
 
-        cout << "Введите максимальную скорость подводной лодки под водой = " << endl;
+        cout << "Введите максимальную скорость подводной лодки под водой = ";
         cin >> this->speed;
         if (this->speed <= 0)
         {
             throw(string) "Скорость не может равняться нулю или быть отрицательной.";
         }
 
+        cout << "Введите вооружение подводной лодки: ";
         cin.ignore(256, '\n');
-        cout << "Введите вооружение подводной лодки: " << endl;
         getline(cin, this->arms);
         if (arms == "")
         {
-            throw(string) "Параметр 'вооружение' не может быть пустым.";
+            throw(string) "Вооружение не может быть пустым.";
         }
+        setError(false);
     }
-    catch (const std::exception &e)
+    catch (string err)
     {
-        std::cerr << e.what() << '\n';
+        cout << "ERROR: " + err << endl;
+        setError(true);
     }
 }
 
 Submarine::Submarine(ifstream &fin)
 {
-    fin >> this->length  >> this->wight >> this->people >> this->time >> this->speed;
+    setType(3);
+    fin >> this->length >> this->wight >> this->people >> this->time >> this->speed;
 
-	fin.ignore(256, '\n');
-	getline(fin, arms);
+    fin.ignore(256, '\n');
+    getline(fin, arms);
 }
 
 Submarine::~Submarine()
 {
-    cout << "Вызван дистрокутор класса Submarine" << endl;
+    cout << "Вызван деструктор класса Submarine" << endl;
     system("pause");
 }
 
@@ -79,8 +83,8 @@ void Submarine::Edit()
              << "[1] Длина" << endl
              << "[2] Ширина" << endl
              << "[3] Экипаж" << endl
-             << "[4] Скорость" << endl
-             << "[5] Время под водой" << endl
+             << "[4] Время под водой" << endl
+             << "[5] Скорость" << endl
              << "[6] Вооружение" << endl
              << "Ваш выбор: ";
         cin >> index;
@@ -93,7 +97,7 @@ void Submarine::Edit()
         {
         case 1:
             cout << length << endl;
-            cout << "Новое значение: ";
+            cout << "Новое значение длины: ";
             cin >> iTmp;
             if (!iTmp || iTmp < 0)
             {
@@ -103,7 +107,7 @@ void Submarine::Edit()
             break;
         case 2:
             cout << wight << endl;
-            cout << "Новое значение: ";
+            cout << "Новое значение ширины: ";
             cin >> iTmp;
             if (!iTmp || iTmp < 0)
             {
@@ -113,7 +117,7 @@ void Submarine::Edit()
             break;
         case 3:
             cout << people << endl;
-            cout << "Новое значение: ";
+            cout << "Новое значение количества экипажа: ";
             cin >> iTmp;
             if (iTmp < 0)
             {
@@ -123,7 +127,7 @@ void Submarine::Edit()
             break;
         case 4:
             cout << time << endl;
-            cout << "Новое значение: ";
+            cout << "Новое значение времени под водой: ";
             cin >> iTmp;
             if (iTmp < 0)
             {
@@ -133,7 +137,7 @@ void Submarine::Edit()
             break;
         case 5:
             cout << speed << endl;
-            cout << "Новое значение: ";
+            cout << "Новое значение скорости: ";
             cin >> iTmp;
             if (iTmp < 0)
             {
@@ -143,7 +147,7 @@ void Submarine::Edit()
             break;
         case 6:
             cout << arms << endl;
-            cout << "Новое значение: ";
+            cout << "Новое значение вооружения: ";
             cin.ignore(256, '\n');
             getline(cin, sTmp);
             if (sTmp == "")
@@ -176,12 +180,12 @@ void Submarine::Save(ofstream &fout)
 void Submarine::Show(ostream &out)
 {
     {
-        cout << "+++++++++++++++++++++++++++++++++++ Подводная лодка +++++++++++++++++++++++++++++++++++" << endl;
-        cout << "Длина лодки: " << length << endl;
-        cout << "Ширина лодки: " << wight << endl;
-        cout << "Экипаж: " << people << endl;
-        cout << "Время под водой: " << time << endl;
-        cout << "Скорость: " << speed << endl;
-        cout << "Вооружение: " << arms << endl;
+        out << "+++++++++++++++++++++++++++++++++++\n        Подводная лодка        \n+++++++++++++++++++++++++++++++++++" << endl;
+        out << "Длина лодки: " << length << endl;
+        out << "Ширина лодки: " << wight << endl;
+        out << "Экипаж: " << people << endl;
+        out << "Время под водой: " << time << endl;
+        out << "Скорость: " << speed << endl;
+        out << "Вооружение: " << arms << endl;
     }
 }
