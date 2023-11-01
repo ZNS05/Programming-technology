@@ -2,7 +2,7 @@
 
 Sailboat::Sailboat()
 {
-    cout << "+++++++++++++++++++++++++++++++++++\n        Парусник        \n+++++++++++++++++++++++++++++++++++" << endl;
+    cout << "+++++++++++++++++++++++++++++++++++\n              Парусник              \n+++++++++++++++++++++++++++++++++++" << endl;
     try
     {
         setType(2);
@@ -62,14 +62,13 @@ Sailboat::Sailboat(ifstream &fin)
     setType(2);
     fin.ignore(256, '\n');
     getline(fin, name);
-    fin.ignore(256, '\n');
     getline(fin, type);
     fin >> this->appointment >> this->length >> this->speed >> this->people;
 }
 
 Sailboat::~Sailboat()
 {
-    cout << "Вызван дистрокутор класса Sailboat" << endl;
+    cout << "Вызван деструктор класса Sailboat" << endl;
     system("pause");
 }
 
@@ -185,7 +184,7 @@ void Sailboat::Save(ofstream &fout)
 
 void Sailboat::Show(ostream &out)
 {
-    out << "+++++++++++++++++++++++++++++++++++\n        Парусник        \n+++++++++++++++++++++++++++++++++++" << endl;
+    out << "+++++++++++++++++++++++++++++++++++\n              Парусник              \n+++++++++++++++++++++++++++++++++++" << endl;
     out << "Название парусника: " << this->name << endl;
     out << "Тип парусника: " << this->type << endl;
     if (this->appointment == 1)
@@ -198,5 +197,19 @@ void Sailboat::Show(ostream &out)
     }
     out << "Длина парусника: " << this->length << endl;
     out << "Максимальная скорость парусника: " << this->speed << endl;
-    out << "Количество экипажа: " << this->people << endl;
+    out << "Количество экипажа: " << this->people << endl
+        << endl;
+}
+
+// конструктор копирования
+Sailboat::Sailboat(const Sailboat &other)
+{
+    // Копирование значений полей из объекта other в текущий объект
+    this->name = other.name;
+    this->type = other.type;
+    this->appointment = other.appointment;
+    this->length = other.length;
+    this->speed = other.speed;
+    this->people = other.people;
+    // setError(other.isError());
 }

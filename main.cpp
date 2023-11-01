@@ -4,15 +4,14 @@ using namespace std;
 
 int main()
 {
-	// setlocale(LC_ALL, "Russian");
 	Keeper Kontener;
 	int menu;
 	do
 	{
 		system("cls");
-		cout << "----------------------------------" << endl
+		cout << "++++++++++++++++++++++++++++++++++" << endl
 			 << "               МЕНЮ               " << endl
-			 << "----------------------------------" << endl
+			 << "++++++++++++++++++++++++++++++++++" << endl
 			 << "Кол-во элементов в контейнере : [" << Kontener.getSize() << "]" << endl
 			 << "[1] Добавить элемент" << endl
 			 << "[2] Удалить элемент" << endl

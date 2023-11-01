@@ -251,6 +251,8 @@ void Keeper::load()
     system("pause");
 }
 
+
+// Перегрузка
 ostream &operator<<(ostream &out, Keeper &obj)
 {
     if (!obj.size)

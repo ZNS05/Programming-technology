@@ -41,7 +41,7 @@ Submarine::Submarine()
             throw(string) "Скорость не может равняться нулю или быть отрицательной.";
         }
 
-        cout << "Введите вооружение подводной лодки: ";
+        cout << "Введите вооружение подводной лодки = ";
         cin.ignore(256, '\n');
         getline(cin, this->arms);
         if (arms == "")
@@ -92,12 +92,12 @@ void Submarine::Edit()
         {
             throw(string) "Параметра с данным индексом не существует.";
         }
-        cout << "Исходное значение: ";
+        cout << "Исходное значение = ";
         switch (index)
         {
         case 1:
             cout << length << endl;
-            cout << "Новое значение длины: ";
+            cout << "Новое значение длины = ";
             cin >> iTmp;
             if (!iTmp || iTmp < 0)
             {
@@ -107,7 +107,7 @@ void Submarine::Edit()
             break;
         case 2:
             cout << wight << endl;
-            cout << "Новое значение ширины: ";
+            cout << "Новое значение ширины = ";
             cin >> iTmp;
             if (!iTmp || iTmp < 0)
             {
@@ -117,7 +117,7 @@ void Submarine::Edit()
             break;
         case 3:
             cout << people << endl;
-            cout << "Новое значение количества экипажа: ";
+            cout << "Новое значение количества экипажа = ";
             cin >> iTmp;
             if (iTmp < 0)
             {
@@ -127,7 +127,7 @@ void Submarine::Edit()
             break;
         case 4:
             cout << time << endl;
-            cout << "Новое значение времени под водой: ";
+            cout << "Новое значение времени под водой = ";
             cin >> iTmp;
             if (iTmp < 0)
             {
@@ -137,7 +137,7 @@ void Submarine::Edit()
             break;
         case 5:
             cout << speed << endl;
-            cout << "Новое значение скорости: ";
+            cout << "Новое значение скорости = ";
             cin >> iTmp;
             if (iTmp < 0)
             {
@@ -147,7 +147,7 @@ void Submarine::Edit()
             break;
         case 6:
             cout << arms << endl;
-            cout << "Новое значение вооружения: ";
+            cout << "Новое значение вооружения = ";
             cin.ignore(256, '\n');
             getline(cin, sTmp);
             if (sTmp == "")
@@ -186,6 +186,7 @@ void Submarine::Show(ostream &out)
         out << "Экипаж: " << people << endl;
         out << "Время под водой: " << time << endl;
         out << "Скорость: " << speed << endl;
-        out << "Вооружение: " << arms << endl;
+        out << "Вооружение: " << arms << endl
+            << endl;
     }
 }

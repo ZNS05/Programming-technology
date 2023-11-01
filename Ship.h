@@ -17,7 +17,7 @@ public:
     bool isError();
     void setError(bool _error);
     virtual void Save(ofstream &fout) = 0;
-    virtual void Edit() = 0;
-    virtual void Show(ostream &out) = 0;
     virtual ~Ship() = 0;
+    virtual void Edit() = 0;
+    virtual void Show(ostream &out) = 0;  
 };
